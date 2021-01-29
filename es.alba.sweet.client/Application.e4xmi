@@ -1,10 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmi:id="_c3AF0MjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.application" bindingContexts="_c3AF2cjYEeSyMNYR5xypkQ">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_c3AF0cjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.window.main" label="Empty E4 Application" width="500" height="400"/>
+<application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_c3AF0MjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.application" bindingContexts="_c3AF2cjYEeSyMNYR5xypkQ">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_c3AF0cjYEeSyMNYR5xypkQ" elementId="es.alba.sweet.client.window.main" label="Sweet - 26th October 2020 - Version 2.0" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png" width="1100" height="700">
+    <children xsi:type="advanced:PerspectiveStack" xmi:id="_kX_swGF1EeuP65CTRaCn7g" elementId="es.alba.sweet.client.perspectivestack"/>
+    <trimBars xmi:id="_L1S6YGFyEeuP65CTRaCn7g" elementId="es.alba.sweet.client.trimbar.0">
+      <children xsi:type="menu:ToolControl" xmi:id="_M8HYgGFyEeuP65CTRaCn7g" elementId="es.alba.sweet.client.toolcontrol.perspective" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.perspective.PerspectiveControl"/>
+    </trimBars>
+  </children>
   <rootContext xmi:id="_c3AF2cjYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_c3AF2sjYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_c3AF28jYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
+  <descriptors xmi:id="_-ia80GF2EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partdescriptor.output.message" label="Message" iconURI="platform:/plugin/es.alba.sweet.client/icons/console.png" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.parts.output.MessageViewer">
+    <tags>release</tags>
+  </descriptors>
+  <descriptors xmi:id="_Hr638GF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partdescriptor.output.debug" label="Debug" iconURI="platform:/plugin/es.alba.sweet.client/icons/debug.png" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.parts.output.DebugViewer">
+    <tags>release</tags>
+  </descriptors>
+  <snippets xsi:type="advanced:Perspective" xmi:id="_POeqcGF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.perspective.scan" label="scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png">
+    <tags>release</tags>
+    <children xsi:type="basic:PartSashContainer" xmi:id="_eq58MGF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.0">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_f4Oq8GF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.1" horizontal="true">
+        <children xsi:type="basic:PartStack" xmi:id="_hpvr4GF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.files">
+          <children xsi:type="basic:Part" xmi:id="_mV4q4GF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.directory" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.files.Directory" label="Directory" iconURI="platform:/plugin/es.alba.sweet.client/icons/folder.png">
+            <tags>dev</tags>
+          </children>
+          <children xsi:type="basic:Part" xmi:id="_47WKIGF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.files" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.files.Files" label="Files" iconURI="platform:/plugin/es.alba.sweet.client/icons/file.png">
+            <tags>dev</tags>
+          </children>
+          <children xsi:type="basic:Part" xmi:id="_DHi4YGF4EeuP65CTRaCn7g" elementId="es.alba.sweet.client..part.scan.favorite" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.files.Favorites" label="Favorite" iconURI="platform:/plugin/es.alba.sweet.client/icons/favorite.png">
+            <tags>dev</tags>
+          </children>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_sdJtoGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.2">
+          <children xsi:type="basic:PartStack" xmi:id="_uBfOMGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.graph">
+            <children xsi:type="basic:Part" xmi:id="_uhaEYGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.graph" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Scan" label="Scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png">
+              <tags>release</tags>
+            </children>
+            <children xsi:type="basic:Part" xmi:id="_5EZiAGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.legend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.ScanLegend" label="Scan legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png">
+              <tags>release</tags>
+            </children>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_Dit7AGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.edge">
+            <tags>release</tags>
+            <children xsi:type="basic:Part" xmi:id="_Jv7rMGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edge" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Edge" label="Edge" iconURI="platform:/plugin/es.alba.sweet.client/icons/edge.png">
+              <tags>release</tags>
+            </children>
+            <children xsi:type="basic:Part" xmi:id="_Tq_mIGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edgelegend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.EdgeLegend" label="Edge Legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png">
+              <tags>release</tags>
+            </children>
+          </children>
+        </children>
+      </children>
+      <children xsi:type="basic:PartStack" xmi:id="_bmPlcGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.output"/>
+    </children>
+  </snippets>
   <addons xmi:id="_c3AF0sjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
   <addons xmi:id="_c3AF08jYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.contexts.service" contributionURI="bundleclass://org.eclipse.e4.ui.services/org.eclipse.e4.ui.services.ContextServiceAddon"/>
   <addons xmi:id="_c3AF1MjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.bindings.service" contributionURI="bundleclass://org.eclipse.e4.ui.bindings/org.eclipse.e4.ui.bindings.BindingServiceAddon"/>
@@ -12,4 +61,6 @@
   <addons xmi:id="_c3AF1sjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.workbench.handler.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_c3AF18jYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.workbench.contexts.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.ContextProcessingAddon"/>
   <addons xmi:id="_c3AF2MjYEeSyMNYR5xypkQ" elementId="org.eclipse.e4.ui.workbench.bindings.model" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.swt/org.eclipse.e4.ui.workbench.swt.util.BindingProcessingAddon"/>
+  <addons xmi:id="_YXJGoGFMEeuu4PdPl3aaig" elementId="es.alba.sweet.client.addon.initialise" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.addons.Initialise"/>
+  <addons xmi:id="_EZzZMGFyEeuP65CTRaCn7g" elementId="es.alba.sweet.client.addon.0" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.addons.ClosingApplication"/>
 </application:Application>
