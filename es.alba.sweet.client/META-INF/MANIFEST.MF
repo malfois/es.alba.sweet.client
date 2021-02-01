@@ -29,7 +29,8 @@ Require-Bundle: javax.inject;bundle-version="0.0.0",
  org.apache.felix.gogo.runtime;bundle-version="1.1.2",
  org.apache.felix.gogo.shell;bundle-version="1.1.2",
  org.apache.felix.scr;bundle-version="2.1.24",
- es.alba.sweet.base;bundle-version="1.0.0"
+ es.alba.sweet.base;bundle-version="1.0.0",
+ es.alba.sweet.server
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Automatic-Module-Name: es.alba.sweet.client
 Import-Package: com.fasterxml.jackson.annotation;version="2.10.3",
