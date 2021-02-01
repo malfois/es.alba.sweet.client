@@ -33,6 +33,7 @@ public class E4LifeCycle {
 	@ProcessAdditions
 	void processAdditions(IEclipseContext workbenchContext) {
 		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", "Injecting " + Json.class.getSimpleName() + " in context " + workbenchContext);
+
 		EclipseUI.start(workbenchContext);
 
 		Json<Configuration> jsonConfiguration = new Json<>(new Configuration());

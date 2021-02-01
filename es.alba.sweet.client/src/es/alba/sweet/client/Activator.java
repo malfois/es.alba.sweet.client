@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import es.alba.sweet.base.constant.SharedDirectory;
 import es.alba.sweet.base.output.Output;
 
 public class Activator implements BundleActivator {
@@ -20,6 +21,7 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 
+		System.out.println(SharedDirectory.NAME.get());
 		Logger LOG = Logger.getLogger(Activator.class.getName());
 
 		// suppress the logging output to the console
