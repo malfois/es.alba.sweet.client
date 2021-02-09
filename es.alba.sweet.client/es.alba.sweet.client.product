@@ -17,10 +17,15 @@
 
    <plugins>
       <plugin id="com.fasterxml.jackson.core.jackson-annotations"/>
+      <plugin id="com.fasterxml.jackson.core.jackson-core"/>
+      <plugin id="com.fasterxml.jackson.core.jackson-databind"/>
       <plugin id="com.ibm.icu"/>
       <plugin id="com.sun.jna"/>
       <plugin id="com.sun.jna.platform"/>
+      <plugin id="es.alba.sweet.base"/>
       <plugin id="es.alba.sweet.client"/>
+      <plugin id="es.alba.sweet.communication"/>
+      <plugin id="es.alba.sweet.server"/>
       <plugin id="javax.annotation"/>
       <plugin id="javax.inject"/>
       <plugin id="org.apache.batik.constants"/>

@@ -40,6 +40,7 @@ public class E4LifeCycle {
 		jsonConfiguration.read();
 		workbenchContext.set(Json.class, jsonConfiguration);
 		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", Json.class.getSimpleName() + " injected in context " + workbenchContext);
+
 	}
 
 	@ProcessRemovals

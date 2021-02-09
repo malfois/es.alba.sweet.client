@@ -17,6 +17,7 @@ public class Id {
 
 	public final static String			MAIN_TRIM_BAR				= String.join(".", SWEET, Word.TRIM_BAR, "top");
 	public final static String			PERSPECTIVE_TOOL_CONTROL	= String.join(".", SWEET, Word.TOOL_CONTROL, Word.PERSPECTIVE);
+	public final static String			SERVER_TOOL_CONTROL			= String.join(".", SWEET, Word.TOOL_CONTROL, Word.SERVER);
 
 	public final static String			SCAN_PERSPECTIVE			= String.join(".", SWEET, Word.PERSPECTIVE, "scan");
 
@@ -25,6 +26,7 @@ public class Id {
 		private final static String	TRIM_BAR		= "trimbar";
 		private final static String	PERSPECTIVE		= "perspective";
 		private final static String	TOOL_CONTROL	= "toolcontrol";
+		private final static String	SERVER			= "server";
 
 	}
 }

@@ -22,6 +22,7 @@ import org.eclipse.core.databinding.property.list.IListProperty;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
+import org.eclipse.e4.ui.workbench.modeling.EPartService.PartState;
 import org.eclipse.jface.databinding.swt.ISWTObservableValue;
 import org.eclipse.jface.databinding.swt.typed.WidgetProperties;
 import org.eclipse.jface.databinding.viewers.IViewerObservableValue;
@@ -216,6 +217,12 @@ public class PerspectiveControl {
 			previousSelection = layoutName;
 			decoratorChanged.hide();
 
+			List<MPart> parts = EclipseUI.partService().getParts().stream().collect(Collectors.toList());
+			parts.stream().forEach(a -> {
+				System.out.println(EclipseUI.partService().isPartVisible(a) + " " + a.getElementId());
+				views.updateButton(a, EclipseUI.partService().isPartVisible(a));
+			});
+
 		}
 
 		private class ChangeLayoutListener implements IChangeListener {
@@ -401,7 +408,7 @@ public class PerspectiveControl {
 			button.setToolTipText(updateToolTipText(part, visible));
 			button.setSelection(visible);
 
-			Output.DEBUG.info("es.alba.sweet.toolbar.PerspectiveViews.updateButton", "Button image updated from part " + part.getElementId());
+			Output.DEBUG.info("es.alba.sweet.client.perspective.PerspectiveControl.Views.updateButton", "Button image updated from part " + part.getElementId());
 
 		}
 
@@ -427,7 +434,9 @@ public class PerspectiveControl {
 				button.addSelectionListener(SelectionListener.widgetSelectedAdapter(e -> {
 					boolean visible = partService.isPartVisible(part);
 					if (!visible) {
-						partService.activate(part);
+						// partService.activate(part);
+						partService.showPart(part, PartState.VISIBLE);
+						partService.bringToTop(part);
 						Output.DEBUG.info("es.alba.sweet.perspective.PerspectiveControl.Views.addButtons", "View " + part.getLabel() + " visible");
 					} else {
 						partService.hidePart(part);

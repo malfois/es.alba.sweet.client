@@ -5,15 +5,18 @@
     <trimBars xmi:id="_L1S6YGFyEeuP65CTRaCn7g" elementId="es.alba.sweet.client.trimbar.0">
       <children xsi:type="menu:ToolControl" xmi:id="_M8HYgGFyEeuP65CTRaCn7g" elementId="es.alba.sweet.client.toolcontrol.perspective" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.perspective.PerspectiveControl"/>
     </trimBars>
+    <trimBars xmi:id="_hDnHYGe2Eeufkeb7e-1_EA" elementId="es.alba.sweet.client.trimbar.server" side="Bottom">
+      <children xsi:type="menu:ToolControl" xmi:id="_phsG8Ge2Eeufkeb7e-1_EA" elementId="es.alba.sweet.client.toolcontrol.server" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.server.ServerOutput"/>
+    </trimBars>
   </children>
   <rootContext xmi:id="_c3AF2cjYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
     <children xmi:id="_c3AF2sjYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.window" name="In Windows"/>
     <children xmi:id="_c3AF28jYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialog" name="In Dialogs"/>
   </rootContext>
-  <descriptors xmi:id="_-ia80GF2EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partdescriptor.output.message" label="Message" iconURI="platform:/plugin/es.alba.sweet.client/icons/console.png" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.parts.output.MessageViewer">
+  <descriptors xmi:id="_-ia80GF2EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partdescriptor.output.message" label="Message" iconURI="platform:/plugin/es.alba.sweet.client/icons/console.png" closeable="true" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.parts.output.MessageViewer">
     <tags>release</tags>
   </descriptors>
-  <descriptors xmi:id="_Hr638GF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partdescriptor.output.debug" label="Debug" iconURI="platform:/plugin/es.alba.sweet.client/icons/debug.png" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.parts.output.DebugViewer">
+  <descriptors xmi:id="_Hr638GF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.partdescriptor.output.debug" label="Debug" iconURI="platform:/plugin/es.alba.sweet.client/icons/debug.png" closeable="true" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.parts.output.DebugViewer">
     <tags>release</tags>
   </descriptors>
   <snippets xsi:type="advanced:Perspective" xmi:id="_POeqcGF3EeuP65CTRaCn7g" elementId="es.alba.sweet.client.perspective.scan" label="scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png">
@@ -33,19 +36,22 @@
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_sdJtoGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.2">
           <children xsi:type="basic:PartStack" xmi:id="_uBfOMGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.graph">
-            <children xsi:type="basic:Part" xmi:id="_uhaEYGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.graph" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Scan" label="Scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png">
+            <children xsi:type="basic:Part" xmi:id="_uhaEYGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.graph" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Scan" label="Scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png" closeable="true">
               <tags>release</tags>
             </children>
-            <children xsi:type="basic:Part" xmi:id="_5EZiAGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.legend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.ScanLegend" label="Scan legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png">
+            <children xsi:type="basic:Part" xmi:id="_5EZiAGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.legend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.ScanLegend" label="Scan legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png" closeable="true">
+              <tags>release</tags>
+            </children>
+            <children xsi:type="basic:Part" xmi:id="_sdRo8GoUEeuRWsGPOPeVRA" elementId="es.alba.sweet.client.part.scan.simulation" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.Simulation" label="Simulation" iconURI="platform:/plugin/es.alba.sweet.client/icons/simulation.png" closeable="true">
               <tags>release</tags>
             </children>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_Dit7AGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.edge">
             <tags>release</tags>
-            <children xsi:type="basic:Part" xmi:id="_Jv7rMGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edge" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Edge" label="Edge" iconURI="platform:/plugin/es.alba.sweet.client/icons/edge.png">
+            <children xsi:type="basic:Part" xmi:id="_Jv7rMGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edge" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Edge" label="Edge" iconURI="platform:/plugin/es.alba.sweet.client/icons/edge.png" closeable="true">
               <tags>release</tags>
             </children>
-            <children xsi:type="basic:Part" xmi:id="_Tq_mIGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edgelegend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.EdgeLegend" label="Edge Legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png">
+            <children xsi:type="basic:Part" xmi:id="_Tq_mIGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edgelegend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.EdgeLegend" label="Edge Legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png" closeable="true">
               <tags>release</tags>
             </children>
           </children>
