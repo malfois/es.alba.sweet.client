@@ -16,6 +16,10 @@
                name="applicationCSS"
                value="platform:/plugin/es.alba.sweet.client/css/default.css">
          </property>
+         <property
+               name="appName"
+               value="es.alba.sweet.client">
+         </property>
       </product>
    </extension>
 

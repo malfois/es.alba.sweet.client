@@ -9,11 +9,12 @@ import es.alba.sweet.base.output.Output;
 
 public class StartServer implements Callable<ServerState> {
 
-	private Process		process;
-	private ServerState	serverState	= ServerState.NOT_RUNNING;
+	private Process process;
+	private ServerState serverState = ServerState.NOT_RUNNING;
 
 	public StartServer(Process process) {
 		this.process = process;
+		System.out.println(process.info());
 	}
 
 	@Override
@@ -21,8 +22,10 @@ public class StartServer implements Callable<ServerState> {
 
 		try {
 			try (BufferedReader bri = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
+
 				String line = null;
 				while ((line = bri.readLine()) != null) {
+					System.out.println(line);
 					Output.MESSAGE.info("es.alba.sweet.client.server.StartServer.call", line);
 					if (line.contains("Waiting for client")) {
 						Output.MESSAGE.info("es.alba.sweet.client.server.StartServer.run", "Server running");

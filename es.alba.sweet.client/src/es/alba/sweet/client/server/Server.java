@@ -21,9 +21,9 @@ public enum Server {
 
 	SERVER;
 
-	private ServerInterlocutor	connection;
+	private ServerInterlocutor connection;
 
-	private Json<Communication>	json	= new Json<>(new Communication());
+	private Json<Communication> json = new Json<>(new Communication());
 
 	private Server() {
 
@@ -33,11 +33,13 @@ public enum Server {
 		File jsonFile = json.getFile();
 		if (!jsonFile.exists()) {
 			String path = jsonFile.getPath().toString();
-			Output.MESSAGE.error("es.alba.sweet.client.server.Server.connect", "File " + path + " containing information about communication to the server NOT FOUND");
+			Output.MESSAGE.error("es.alba.sweet.client.server.Server.connect",
+					"File " + path + " containing information about communication to the server NOT FOUND");
 			Output.MESSAGE.error("es.alba.sweet.client.server.Server.connect", "Connection to the server: None");
 		} else {
 			String filename = json.getFile().getPath().toString();
-			Output.MESSAGE.info("es.alba.sweet.client.server.Server.connect", "File containing information about communication to the server: " + filename);
+			Output.MESSAGE.info("es.alba.sweet.client.server.Server.connect",
+					"File containing information about communication to the server: " + filename);
 			json.read();
 
 			if (this.isServerRunning()) {
@@ -51,14 +53,17 @@ public enum Server {
 	}
 
 	private Boolean isServerRunning() {
+		System.out.println(json.getFile().toPath());
 		if (Files.notExists(json.getFile().toPath())) {
-			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.isServerRunning", "File does not exist. Assuming the server is not running");
+			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.isServerRunning",
+					"File does not exist. Assuming the server is not running");
 			return false;
 		}
 		// If the file exists, check the port and hostname are valid
 		Communication configuration = json.getConfiguration();
 		if (!configuration.isValid()) {
-			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.isServerRunning", "Hostname or/and port not valid");
+			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.isServerRunning",
+					"Hostname or/and port not valid");
 			return false;
 		}
 
@@ -72,7 +77,8 @@ public enum Server {
 			InetAddress serverPC = InetAddress.getByName(serverHostName);
 			byte[] serverBytes = serverPC.getAddress();
 			if (pcBytes[2] != serverBytes[2]) {
-				Output.MESSAGE.error("es.alba.sweet.client.server.Server.sameNetwork", "Server NOT reachable. Not on the same network");
+				Output.MESSAGE.error("es.alba.sweet.client.server.Server.sameNetwork",
+						"Server NOT reachable. Not on the same network");
 				return false;
 			}
 			return true;
@@ -85,7 +91,7 @@ public enum Server {
 	public void start() {
 		Output.MESSAGE.info("es.alba.sweet.client.server.Server.start", "Starting the server");
 		List<String> commandLine = CommandLine.SERVER.get();
-
+		System.out.println(commandLine);
 		ProcessBuilder pb = new ProcessBuilder(commandLine);
 		try {
 			Process process = pb.start();
@@ -124,17 +130,20 @@ public enum Server {
 	}
 
 	// public void stop() {
-	// Output.MESSAGE.info("es.alba.sweet.client.server.Server.stop", "Stopping the server");
+	// Output.MESSAGE.info("es.alba.sweet.client.server.Server.stop", "Stopping the
+	// server");
 	// JsonText<Stop> jsonText = new JsonText<>(Command.STOP, new Stop());
 	// send(jsonText.toString());
 	// serverState = ServerState.NOT_RUNNING;
-	// Output.MESSAGE.info("es.alba.sweet.client.server.Server.stop", "Server stopped");
+	// Output.MESSAGE.info("es.alba.sweet.client.server.Server.stop", "Server
+	// stopped");
 	// }
 
 	public void connection() {
 		Communication connection = json.getConfiguration();
 		if (!this.sameNetwork(connection.getHostName())) {
-			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.connection", "Server and client not on the same network. No connection to the server possible");
+			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.connection",
+					"Server and client not on the same network. No connection to the server possible");
 			return;
 		}
 

@@ -3,6 +3,7 @@ package es.alba.sweet.client;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import es.alba.sweet.base.constant.Application;
 import es.alba.sweet.base.constant.Directory;
 import es.alba.sweet.base.logger.LogFile;
 import es.alba.sweet.base.output.Output;
@@ -19,7 +20,8 @@ public class Activator implements BundleActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 
-		System.out.println(Directory.SHARED.get());
+		Output.MESSAGE.setApplication(Application.SWEET);
+
 		LogFile.create(Activator.class.getName(), Directory.CLIENT);
 
 		Server.SERVER.connect();

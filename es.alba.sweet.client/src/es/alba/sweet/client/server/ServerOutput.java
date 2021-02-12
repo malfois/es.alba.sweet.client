@@ -15,8 +15,8 @@ import es.alba.sweet.client.core.IconLoader;
 
 public class ServerOutput {
 
-	private Label	state;
-	private Label	image;
+	private Label state;
+	private Label image;
 
 	@PostConstruct
 	public void createGui(Composite parent) {

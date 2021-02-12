@@ -7,6 +7,7 @@ import org.eclipse.core.databinding.beans.typed.BeanProperties;
 import org.eclipse.core.databinding.observable.ChangeEvent;
 import org.eclipse.core.databinding.observable.IChangeListener;
 import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.custom.StyledText;
@@ -19,12 +20,12 @@ import es.alba.sweet.base.output.Output;
 
 public class OutputTextViewer {
 
-	private Color		black;
-	private Color		orange;
-	private Color		red;
+	private Color black;
+	private Color orange;
+	private Color red;
 
-	private StyledText	textViewer;
-	private Output		output;
+	private StyledText textViewer;
+	private Output output;
 
 	public OutputTextViewer(Composite parent, Output output) {
 		this.black = Display.getCurrent().getSystemColor(SWT.COLOR_BLACK);
@@ -35,6 +36,7 @@ public class OutputTextViewer {
 
 		textViewer = new StyledText(parent, SWT.NONE | SWT.H_SCROLL | SWT.V_SCROLL);
 		textViewer.setEditable(false);
+		textViewer.setFont(JFaceResources.getFont(JFaceResources.TEXT_FONT));
 
 		IBeanValueProperty<Output, AMessage> property = BeanProperties.value(Output.class, "currentMessage");
 		IObservableValue<AMessage> observableCurrentMessage = property.observe(output);
@@ -46,7 +48,8 @@ public class OutputTextViewer {
 		@SuppressWarnings("unchecked")
 		@Override
 		public void handleChange(ChangeEvent event) {
-			if (textViewer.isDisposed()) return;
+			if (textViewer.isDisposed())
+				return;
 			if (textViewer.getText().length() == 0) {
 				output.getMessages().forEach(a -> add(a));
 				return;
