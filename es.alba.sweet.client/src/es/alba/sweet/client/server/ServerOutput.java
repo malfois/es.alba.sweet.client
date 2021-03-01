@@ -1,10 +1,10 @@
 package es.alba.sweet.client.server;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
 import javax.annotation.PostConstruct;
 
-import org.eclipse.core.databinding.observable.ChangeEvent;
-import org.eclipse.core.databinding.observable.IChangeListener;
-import org.eclipse.core.databinding.observable.value.WritableValue;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -15,13 +15,15 @@ import es.alba.sweet.client.core.IconLoader;
 
 public class ServerOutput {
 
-	private Label state;
-	private Label image;
+	private Label	state;
+	private Label	image;
 
 	@PostConstruct
 	public void createGui(Composite parent) {
-		System.out.println(this.getClass());
-		WritableValue<ServerState> observableServerState = Server.SERVER.getObservableServerState();
+
+		Server.SERVER.addPropertyChangeListener(new ChangeServerStateListener());
+
+		ServerState serverState = Server.SERVER.getServerState();
 
 		Composite serverComposite = new Composite(parent, SWT.NONE);
 		GridLayout compositeLayout = new GridLayout();
@@ -33,24 +35,22 @@ public class ServerOutput {
 		label.setText("Sweet Server");
 
 		state = new Label(serverComposite, SWT.NONE | SWT.BOTTOM);
-		state.setText(observableServerState.getValue().getDescription());
+		state.setText(serverState.getDescription());
 
 		image = new Label(serverComposite, SWT.NONE);
-		image.setImage(IconLoader.load(observableServerState.getValue().getIconFileName()).createImage());
-		observableServerState.addChangeListener(new ChangeServerStateListener());
+		image.setImage(IconLoader.load(serverState.getIconFileName()).createImage());
 
 	}
 
-	private class ChangeServerStateListener implements IChangeListener {
+	private class ChangeServerStateListener implements PropertyChangeListener {
 
-		@SuppressWarnings("unchecked")
 		@Override
-		public void handleChange(ChangeEvent event) {
-			WritableValue<ServerState> serverState = (WritableValue<ServerState>) event.getObservable();
+		public void propertyChange(PropertyChangeEvent event) {
+			ServerState serverState = (ServerState) event.getNewValue();
 			Display.getDefault().syncExec(new Runnable() {
 				public void run() {
-					state.setText(serverState.getValue().getDescription());
-					image.setImage(IconLoader.load(serverState.getValue().getIconFileName()).createImage());
+					state.setText(serverState.getDescription());
+					image.setImage(IconLoader.load(serverState.getIconFileName()).createImage());
 				}
 			});
 

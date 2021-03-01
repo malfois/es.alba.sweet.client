@@ -36,7 +36,6 @@ public class DebugViewer {
 	public void listUpdated(@UIEventTopic(OutputName.DEBUG) AMessage message, EPartService partService, MPart part) {
 
 		if (partService.isPartVisible(part)) {
-			System.out.println("es.alba.sweet.parts.output.class_name.listUpdated " + part.getElementId());
 			this.viewer.add(message);
 		}
 	}

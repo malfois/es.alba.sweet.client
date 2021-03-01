@@ -1,0 +1,148 @@
+{
+  "header" : {
+    "filename" : "Z:\\github\\es.alba.sweet.client\\es.alba.sweet.client\\test\\bco_x_6139.dat",
+    "command" : "ascan bco_x -2.825625 3.174375 30 0.5",
+    "motor" : "bco_x",
+    "scanID" : 6139,
+    "selectedDiagnostic" : "ic2",
+    "diagnostics" : [ "Pt_No", "bco_x", "ic1", "ic2", "ic3", "eh_emetionchambers_timer", "ic0", "eh_diodes_timer", "dt" ],
+    "numberOfPoints" : 31,
+    "headerFile" : [ "#S 6139 ascan bco_x -2.825625 3.174375 30 0.5", "#U tangosys", "#D Fri Jan 22 11:32:26 2021", "#N 9", "#L Pt_No  bco_x  ic1  ic2  ic3  eh_emetionchambers_timer  ic0  eh_diodes_timer  dt" ]
+  },
+  "legends" : [ {
+    "xAxis" : false,
+    "name" : "Pt_No",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : true,
+    "name" : "bco_x",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : false,
+    "name" : "ic1",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : false,
+    "name" : "ic2",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : true
+  }, {
+    "xAxis" : false,
+    "name" : "ic3",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : false,
+    "name" : "eh_emetionchambers_timer",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : false,
+    "name" : "ic0",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : false,
+    "name" : "eh_diodes_timer",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  }, {
+    "xAxis" : false,
+    "name" : "dt",
+    "renderer" : {
+      "width" : 1,
+      "color" : {
+        "red" : 255,
+        "green" : 0,
+        "blue" : 0,
+        "alpha" : 255
+      },
+      "line" : "SOLID_LINE",
+      "symbol" : "NONE"
+    },
+    "plotYAxis" : false
+  } ]
+}

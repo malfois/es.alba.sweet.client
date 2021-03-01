@@ -5,16 +5,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.Callable;
 
+import es.alba.sweet.base.output.AMessage;
+import es.alba.sweet.base.output.Message;
 import es.alba.sweet.base.output.Output;
 
 public class StartServer implements Callable<ServerState> {
 
-	private Process process;
-	private ServerState serverState = ServerState.NOT_RUNNING;
+	private Process		process;
+	private ServerState	serverState	= ServerState.NOT_RUNNING;
 
 	public StartServer(Process process) {
 		this.process = process;
-		System.out.println(process.info());
 	}
 
 	@Override
@@ -25,8 +26,8 @@ public class StartServer implements Callable<ServerState> {
 
 				String line = null;
 				while ((line = bri.readLine()) != null) {
-					System.out.println(line);
-					Output.MESSAGE.info("es.alba.sweet.client.server.StartServer.call", line);
+					Message message = AMessage.Factory(line);
+					Output.MESSAGE.print(message);
 					if (line.contains("Waiting for client")) {
 						Output.MESSAGE.info("es.alba.sweet.client.server.StartServer.run", "Server running");
 						return ServerState.RUNNING_AND_NOT_CONNECTED;
@@ -41,6 +42,7 @@ public class StartServer implements Callable<ServerState> {
 						}
 					}
 				} catch (InterruptedException e) {
+					System.err.println(e.getMessage());
 					Thread.currentThread().interrupt();
 					e.printStackTrace();
 				}

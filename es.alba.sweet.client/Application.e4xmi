@@ -34,25 +34,30 @@
             <tags>dev</tags>
           </children>
         </children>
-        <children xsi:type="basic:PartSashContainer" xmi:id="_sdJtoGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.2">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_h-7ucHHuEeu_-9g3U-WT6Q" elementId="es.alba.sweet.client.partsashcontainer.3">
           <children xsi:type="basic:PartStack" xmi:id="_uBfOMGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.graph">
-            <children xsi:type="basic:Part" xmi:id="_uhaEYGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.graph" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Scan" label="Scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/scan.png" closeable="true">
-              <tags>release</tags>
-            </children>
-            <children xsi:type="basic:Part" xmi:id="_5EZiAGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.legend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.ScanLegend" label="Scan legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png" closeable="true">
-              <tags>release</tags>
-            </children>
             <children xsi:type="basic:Part" xmi:id="_sdRo8GoUEeuRWsGPOPeVRA" elementId="es.alba.sweet.client.part.scan.simulation" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.Simulation" label="Simulation" iconURI="platform:/plugin/es.alba.sweet.client/icons/simulation.png" closeable="true">
               <tags>release</tags>
             </children>
           </children>
-          <children xsi:type="basic:PartStack" xmi:id="_Dit7AGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.edge">
-            <tags>release</tags>
-            <children xsi:type="basic:Part" xmi:id="_Jv7rMGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edge" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Edge" label="Edge" iconURI="platform:/plugin/es.alba.sweet.client/icons/edge.png" closeable="true">
-              <tags>release</tags>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_sdJtoGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.2" horizontal="true">
+            <children xsi:type="basic:PartStack" xmi:id="_BWhgkHHoEeu_-9g3U-WT6Q" elementId="es.alba.sweet.client.partstack.0">
+              <children xsi:type="basic:Part" xmi:id="_5EZiAGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.legend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.ScanLegend" label="Scan legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png" closeable="true">
+                <tags>release</tags>
+              </children>
             </children>
-            <children xsi:type="basic:Part" xmi:id="_Tq_mIGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edgelegend" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.EdgeLegend" label="Edge Legend" iconURI="platform:/plugin/es.alba.sweet.client/icons/legend.png" closeable="true">
-              <tags>release</tags>
+            <children xsi:type="basic:PartSashContainer" xmi:id="_x-ZqkHHoEeu_-9g3U-WT6Q" elementId="es.alba.sweet.client.partsashcontainer.4">
+              <children xsi:type="basic:PartStack" xmi:id="_Ra2f0HHoEeu_-9g3U-WT6Q" elementId="es.alba.sweet.client.partstack.1">
+                <children xsi:type="basic:Part" xmi:id="_9Q9xsHHtEeu_-9g3U-WT6Q" elementId="es.alba.sweet.client.part.scan.graph" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.ScanPart" label="Scan" iconURI="platform:/plugin/es.alba.sweet.client/icons/gaussian.png" closeable="true">
+                  <tags>release</tags>
+                </children>
+              </children>
+              <children xsi:type="basic:PartStack" xmi:id="_Dit7AGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.edge">
+                <tags>release</tags>
+                <children xsi:type="basic:Part" xmi:id="_Jv7rMGGEEeuP65CTRaCn7g" elementId="es.alba.sweet.client.part.scan.edge" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.graph.Edge" label="Edge" iconURI="platform:/plugin/es.alba.sweet.client/icons/edge.png" closeable="true">
+                  <tags>release</tags>
+                </children>
+              </children>
             </children>
           </children>
         </children>

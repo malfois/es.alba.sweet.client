@@ -59,7 +59,7 @@ public class Perspective {
 
 	}
 
-	@SuppressWarnings({ "restriction" })
+	@SuppressWarnings({})
 	public static void SavePerspective(String layoutName) {
 		Output.DEBUG.info("es.alba.sweet.perspective.Layout.savePerspective", "layout name will be saved as " + layoutName);
 

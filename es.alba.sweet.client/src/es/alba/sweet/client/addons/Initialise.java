@@ -30,39 +30,40 @@ import es.alba.sweet.client.perspective.Configuration;
 import es.alba.sweet.client.perspective.Perspective;
 import es.alba.sweet.client.perspective.PerspectiveConfiguration;
 import es.alba.sweet.client.perspective.PerspectiveControl;
+import es.alba.sweet.client.scan.ScanConfiguration;
 
 public class Initialise {
 
 	@Inject
-	EModelService modelService;
+	EModelService		modelService;
 	@Inject
-	EPartService partService;
+	EPartService		partService;
 	@Inject
-	MApplication application;
+	MApplication		application;
 	@Inject
-	IEventBroker eventBroker;
+	IEventBroker		eventBroker;
 	@Inject
-	Json<Configuration> json;
+	Configuration		configuration;
+
+	@Inject
+	ScanConfiguration	scanConfiguration;
 
 	@Inject
 	@Optional
 	public void applicationStarted(@EventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) Event event) {
 
-		// Output.DEBUG.info("es.alba.sweet.addons.Initialise.applicationStarted",
-		// "Initializing the application");
 		Output.MESSAGE.info("es.alba.sweet.addons.Initialise.applicationStarted", "Initializing the application");
-		// Output.MESSAGE.setIEventBroker(eventBroker);
 
-		System.out.println(application);
-		System.out.println((MTrimmedWindow) application.getSelectedElement());
-
+		Json<Configuration> json = new Json<>(configuration);
 		json.print();
+
+		Json<ScanConfiguration> jscan = new Json<>(scanConfiguration);
+		jscan.print();
 
 		// add the perspective to the perspective stack
 		build();
 
-		eventBroker.subscribe(UIEvents.ElementContainer.TOPIC_CHILDREN,
-				new MovingPartListener(EclipseUI.getPerspectiveToolControl()));
+		eventBroker.subscribe(UIEvents.ElementContainer.TOPIC_CHILDREN, new MovingPartListener(EclipseUI.getPerspectiveToolControl()));
 
 		MToolControl toolControl = EclipseUI.getPerspectiveToolControl();
 		PerspectiveControl control = (PerspectiveControl) toolControl.getObject();
@@ -86,47 +87,34 @@ public class Initialise {
 
 		MUIElement element = modelService.find(Id.PERSPECTIVE_STACK, application);
 
-		if (!(element instanceof MPerspectiveStack))
-			return;
-
-		System.out.println("Perspectivestack found " + Id.PERSPECTIVE_STACK + " " + element);
+		if (!(element instanceof MPerspectiveStack)) return;
 
 		MPerspectiveStack perspectiveStack = (MPerspectiveStack) element;
 
-		System.out.println(perspectiveStack.getElementId() + " " + perspectiveStack.getChildren().size());
-
 		// If perspective stack is empty, load all default perspectives
 		if (perspectiveStack.getChildren().isEmpty()) {
-			Output.DEBUG.info("es.alba.sweet.perspective.ToolBar.build",
-					"No perspective found. Loading default perspectives");
+			Output.MESSAGE.info("es.alba.sweet.perspective.ToolBar.build", "No perspective found. Loading default perspectives");
 			loadAllDefaultPerspectives(perspectiveStack);
 			Output.DEBUG.info("es.alba.sweet.perspective.ToolBar.build", "Default perspectives loaded");
 		}
 
-		MPerspective activePerspective = EclipseUI.activePerspective();
-		// update(jsonConfiguration.getConfiguration().getPerspective(activePerspective.getElementId()));
 	}
 
 	public void loadAllDefaultPerspectives(MPerspectiveStack perspectiveStack) {
-		List<String> elementsIds = application.getSnippets().stream().filter(p -> (p instanceof MPerspective))
-				.map(m -> (String) m.getElementId()).collect(Collectors.toList());
+		List<String> elementsIds = application.getSnippets().stream().filter(p -> (p instanceof MPerspective)).map(m -> (String) m.getElementId()).collect(Collectors.toList());
 
 		boolean isFirst = true;
 		for (String elementId : elementsIds) {
-			System.out.println(elementId);
 			MPerspective perspective = Perspective.loadDefaultPerspective(elementId);
 			if (perspective != null) {
-				Output.DEBUG.info("es.alba.sweet.perspective.ToolBar.loadAllDefaultPerspectives",
-						"loading default perspective " + elementId);
+				Output.DEBUG.info("es.alba.sweet.perspective.ToolBar.loadAllDefaultPerspectives", "loading default perspective " + elementId);
 				perspectiveStack.getChildren().add(perspective);
-				PerspectiveConfiguration configuration = json.getConfiguration()
-						.getPerspective(perspective.getElementId());
+				PerspectiveConfiguration configuration = this.configuration.getPerspective(perspective.getElementId());
 				configuration.setSelectedLayout(PerspectiveConfiguration.DEFAULT);
 				if (isFirst) {
 					perspectiveStack.setSelectedElement(perspective);
 					isFirst = false;
-					Output.DEBUG.info("es.alba.sweet.perspective.ToolBar.loadAllDefaultPerspectives",
-							"first perspective set as active");
+					Output.DEBUG.info("es.alba.sweet.perspective.ToolBar.loadAllDefaultPerspectives", "first perspective set as active");
 				}
 			}
 		}

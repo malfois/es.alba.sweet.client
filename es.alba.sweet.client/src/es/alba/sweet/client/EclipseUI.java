@@ -43,4 +43,7 @@ public class EclipseUI {
 		return (MToolControl) modelService().find(Id.PERSPECTIVE_TOOL_CONTROL, window());
 	}
 
+	public static IEclipseContext getEclipseContext() {
+		return eclipseContext;
+	}
 }

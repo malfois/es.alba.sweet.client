@@ -1,14 +1,22 @@
+ 
+package es.alba.sweet.client.scan;
 
-package es.alba.sweet.client.scan.graph;
-
+import javax.inject.Inject;
 import javax.annotation.PostConstruct;
-
 import org.eclipse.swt.widgets.Composite;
 
-public class EdgeLegend {
-
+public class Text {
+	@Inject
+	public Text() {
+		
+	}
+	
 	@PostConstruct
 	public void postConstruct(Composite parent) {
+		
 	}
-
+	
+	
+	
+	
 }

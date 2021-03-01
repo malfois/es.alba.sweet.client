@@ -21,12 +21,16 @@ public class Id {
 
 	public final static String			SCAN_PERSPECTIVE			= String.join(".", SWEET, Word.PERSPECTIVE, "scan");
 
+	public final static String			SCAN_PLOT					= String.join(".", SWEET, Word.PART, "scan", "graph");
+	public final static String			SCAN_LEGEND					= String.join(".", SWEET, Word.PART, "scan", "legend");
+
 	private class Word {
 		private final static String	PART_DESCRIPTOR	= "partdescriptor";
 		private final static String	TRIM_BAR		= "trimbar";
 		private final static String	PERSPECTIVE		= "perspective";
 		private final static String	TOOL_CONTROL	= "toolcontrol";
 		private final static String	SERVER			= "server";
+		private final static String	PART			= "part";
 
 	}
 }

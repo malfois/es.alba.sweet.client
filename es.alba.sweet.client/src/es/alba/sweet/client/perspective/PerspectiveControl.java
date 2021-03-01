@@ -46,7 +46,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
-import es.alba.sweet.base.configuration.Json;
 import es.alba.sweet.base.output.Output;
 import es.alba.sweet.client.EclipseUI;
 import es.alba.sweet.client.core.IconLoader;
@@ -55,17 +54,17 @@ import es.alba.sweet.client.core.constant.Tag;
 public class PerspectiveControl {
 
 	@Inject
-	Json<Configuration>	json;
+	Configuration	configuration;
 
-	private Name		name;
-	private Layout		layout;
-	private Views		views;
+	private Name	name;
+	private Layout	layout;
+	private Views	views;
 
 	@PostConstruct
 	public void createGui(Composite parent) {
 
 		name = new Name(parent);
-		layout = new Layout(parent, json.getConfiguration().getSelectedPerspectiveConfiguration());
+		layout = new Layout(parent, configuration.getSelectedPerspectiveConfiguration());
 		views = new Views(parent);
 
 	}
@@ -219,7 +218,6 @@ public class PerspectiveControl {
 
 			List<MPart> parts = EclipseUI.partService().getParts().stream().collect(Collectors.toList());
 			parts.stream().forEach(a -> {
-				System.out.println(EclipseUI.partService().isPartVisible(a) + " " + a.getElementId());
 				views.updateButton(a, EclipseUI.partService().isPartVisible(a));
 			});
 
@@ -260,7 +258,6 @@ public class PerspectiveControl {
 				previousSelection = savedLayoutName;
 
 				if (!input.contains(savedLayoutName)) {
-					System.out.println("Adding " + savedLayoutName + " to " + input);
 					input.add(savedLayoutName);
 				}
 				observableSelectedLayout.removeChangeListener(changeLayoutListener);
@@ -463,7 +460,7 @@ public class PerspectiveControl {
 		private Label	nameLabel;
 		private Label	imageLabel;
 
-		@SuppressWarnings({ "unchecked", "rawtypes" })
+		@SuppressWarnings({ "rawtypes" })
 		public Name(Composite parent) {
 			// MPerspective activePerspective = EclipseUI.activePerspective();
 
@@ -483,7 +480,7 @@ public class PerspectiveControl {
 			imageGridData.widthHint = 20;
 			imageLabel.setLayoutData(imageGridData);
 
-			IObservableValue model = BeanProperties.value(Configuration.class, "selectedPerspectiveId").observe(json.getConfiguration());
+			IObservableValue model = BeanProperties.value(Configuration.class, "selectedPerspectiveId").observe(configuration);
 
 			// Bind the perspective id to the Label
 			ISideEffect.create(() -> {

@@ -9,6 +9,7 @@ import org.eclipse.e4.ui.workbench.lifecycle.ProcessRemovals;
 import es.alba.sweet.base.configuration.Json;
 import es.alba.sweet.base.output.Output;
 import es.alba.sweet.client.perspective.Configuration;
+import es.alba.sweet.client.scan.ScanConfiguration;
 
 /**
  * This is a stub implementation containing e4 LifeCycle annotated methods.<br />
@@ -21,13 +22,20 @@ public class E4LifeCycle {
 		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.postContextCreate", "OK");
 	}
 
-	@SuppressWarnings("unchecked")
 	@PreSave
 	void preSave(IEclipseContext workbenchContext) {
 		System.out.println(this.getClass() + " presave");
 
-		Json<Configuration> jsonConfiguration = workbenchContext.get(Json.class);
+		Configuration configuration = workbenchContext.get(Configuration.class);
+		Json<Configuration> jsonConfiguration = new Json<>(configuration);
 		jsonConfiguration.print();
+		jsonConfiguration.write();
+
+		ScanConfiguration scanConfiguration = workbenchContext.get(ScanConfiguration.class);
+		Json<ScanConfiguration> jsonScanConfiguration = new Json<>(scanConfiguration);
+		// jsonScanConfiguration.print();
+		jsonScanConfiguration.write();
+
 	}
 
 	@ProcessAdditions
@@ -38,8 +46,16 @@ public class E4LifeCycle {
 
 		Json<Configuration> jsonConfiguration = new Json<>(new Configuration());
 		jsonConfiguration.read();
-		workbenchContext.set(Json.class, jsonConfiguration);
-		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions", Json.class.getSimpleName() + " injected in context " + workbenchContext);
+		workbenchContext.set(Configuration.class, jsonConfiguration.getConfiguration());
+		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions",
+				jsonConfiguration.getConfiguration().getClass().getSimpleName() + " injected in context " + workbenchContext);
+
+		Json<ScanConfiguration> jsonScanConfiguration = new Json<>(new ScanConfiguration());
+		jsonScanConfiguration.read();
+		jsonScanConfiguration.print();
+		workbenchContext.set(ScanConfiguration.class, jsonScanConfiguration.getConfiguration());
+		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions",
+				jsonScanConfiguration.getConfiguration().getClass().getSimpleName() + " injected in context " + workbenchContext);
 
 	}
 

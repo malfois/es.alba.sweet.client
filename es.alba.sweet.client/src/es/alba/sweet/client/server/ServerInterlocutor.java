@@ -7,33 +7,37 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import org.eclipse.core.databinding.observable.value.WritableValue;
-
+import es.alba.sweet.base.ObservableProperty;
+import es.alba.sweet.base.communication.command.CommandName;
+import es.alba.sweet.base.communication.command.CommandStream;
+import es.alba.sweet.base.communication.command.CommandStreamNullException;
+import es.alba.sweet.base.communication.command.JsonException;
+import es.alba.sweet.base.communication.command.Name;
 import es.alba.sweet.base.constant.Application;
+import es.alba.sweet.base.output.Message;
 import es.alba.sweet.base.output.Output;
-import es.alba.sweet.communication.command.Command;
-import es.alba.sweet.communication.command.Information;
-import es.alba.sweet.communication.command.JsonText;
-import es.alba.sweet.communication.command.WordArgument;
-import es.alba.sweet.server.DefaultRealm;
+import es.alba.sweet.base.scan.Header;
+import es.alba.sweet.client.scan.Scan;
 
-public class ServerInterlocutor implements Runnable {
+public class ServerInterlocutor extends ObservableProperty implements Runnable {
 
-	private Socket clientSocket;
+	private Socket			clientSocket;
 
-	private PrintWriter toServer;
-	private BufferedReader fromServer;
-	private String fromServerString;
+	private PrintWriter		toServer;
+	private BufferedReader	fromServer;
 
-	private String hostName;
-	private int portNumber;
+	private String			hostName;
+	private int				portNumber;
 
-	private WritableValue<ServerState> serverState = new WritableValue<>(new DefaultRealm(), ServerState.NOT_RUNNING, null);
+	private ServerState		serverState	= ServerState.NOT_RUNNING;
 
-	public ServerInterlocutor(String hostName, int portNumber) throws IOException {
+	public ServerInterlocutor(String hostName, int portNumber) {
 		this.hostName = hostName;
 		this.portNumber = portNumber;
-		this.connect();
+	}
+
+	private void setServerState(ServerState serverState) {
+		firePropertyChange("serverState", this.serverState, this.serverState = serverState);
 	}
 
 	public void connect() throws IOException {
@@ -41,11 +45,12 @@ public class ServerInterlocutor implements Runnable {
 			clientSocket = new Socket(hostName, portNumber);
 			toServer = new PrintWriter(clientSocket.getOutputStream(), true);
 			fromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-			serverState.setValue(ServerState.RUNNING_AND_CONNECTED);
+			setServerState(ServerState.RUNNING_AND_CONNECTED);
 			Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.connect", "Server connected ");
-			JsonText<WordArgument> jsonText = new JsonText<>(Command.NAME, new WordArgument(Application.SWEET.name()));
-			send(jsonText.toString());
-
+			Name name = new Name();
+			name.setName(Application.SWEET.name());
+			CommandStream command = new CommandStream(CommandName.NAME, name.toJson());
+			send(command);
 		} catch (UnknownHostException e) {
 			Output.MESSAGE.error("es.alba.sweet.client.server.ServerInterlocutor.connect", e.getMessage());
 		} catch (IOException e) {
@@ -54,18 +59,14 @@ public class ServerInterlocutor implements Runnable {
 		}
 	}
 
-	protected void send(String text) {
-		this.toServer.println(text);
-	}
-
-	public WritableValue<ServerState> getObservableServerState() {
-		return this.serverState;
+	public void send(CommandStream command) {
+		this.toServer.println(command.toString());
 	}
 
 	protected void disconnect() {
 		try {
 			this.clientSocket.close();
-			serverState.setValue(ServerState.RUNNING_AND_NOT_CONNECTED);
+			setServerState(ServerState.RUNNING_AND_NOT_CONNECTED);
 			Thread.currentThread().interrupt();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -78,67 +79,47 @@ public class ServerInterlocutor implements Runnable {
 			boolean run = true;
 			while (run) {
 
-				fromServerString = fromServer.readLine();
-				if (fromServerString == null) {
-					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "No answer from SERVER - Maybe closed");
-					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Closing the socket");
-					serverState.setValue(ServerState.NOT_RUNNING);
-					if (this.clientSocket.isClosed())
-						return;
-					this.clientSocket.close();
-					Thread.currentThread().interrupt();
-					run = false;
-					return;
-				}
-				System.out.println("RECEIVED from SERVER - " + fromServerString);
-				Command command = JsonText.getCommand(fromServerString);
+				CommandStream commandStream = new CommandStream(fromServer.readLine());
+				System.out.println(commandStream);
+				// if (fromServerString == null) {
+				// Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "No answer from SERVER - Maybe closed");
+				// Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Closing the socket");
+				// setServerState(ServerState.NOT_RUNNING);
+				// if (this.clientSocket.isClosed()) return;
+				// this.clientSocket.close();
+				// Thread.currentThread().interrupt();
+				// run = false;
+				// return;
+				// }
+
+				CommandName command = commandStream.getCommandName();
 				switch (command) {
-				case INFO:
-					JsonText<Information> jsonInfo = new JsonText<>(command, new Information());
-					jsonInfo.createObject(fromServerString);
-					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", jsonInfo.getArgument().getInfo());
+				case MESSAGE:
+					Message message = new Message(commandStream.getCommandArgument());
+					System.out.println(message.toString());
+					Output.MESSAGE.print(message);
+					break;
+				case SCAN_HEADER:
+					Header scanHeader = new Header(commandStream.getCommandArgument());
+					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Scan header received");
+					Scan.PROCESS.initialise(scanHeader);
 					break;
 				default:
 					break;
 				}
 			}
+		} catch (CommandStreamNullException e) {
+			e.printStackTrace();
+		} catch (JsonException e) {
+			e.printStackTrace();
 		} catch (IOException e) {
-			serverState.setValue(ServerState.NOT_RUNNING);
-			Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Connection to Server closed");
+			e.printStackTrace();
 		}
 
 	}
 
-	// private Boolean action(Message message) {
-	// try {
-	// Boolean run = true;
-	// MessageKey type = message.getKey();
-	// switch (type) {
-	// case NAME:
-	// Message.Print(message.getTo(), message.getFrom(), message.getTo(),
-	// message.getValue(), "connected");
-	// break;
-	// case HOSTNAME:
-	// Communication.XML.getConfiguration().setHostName(message.getValue());
-	// break;
-	// case PORT:
-	// Communication.XML.getConfiguration().setPort(Integer.parseInt(message.getValue()));
-	// break;
-	// case STOP:
-	// if (this.clientSocket.isClosed()) return false;
-	//
-	// this.clientSocket.close();
-	// closeConnection();
-	// run = false;
-	// break;
-	// default:
-	// break;
-	// }
-	// return run;
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// return true;
-	// }
+	public ServerState getServerState() {
+		return this.serverState;
+	}
 
 }
