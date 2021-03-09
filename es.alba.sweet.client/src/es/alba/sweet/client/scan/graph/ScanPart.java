@@ -3,6 +3,7 @@ package es.alba.sweet.client.scan.graph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -17,6 +18,8 @@ import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
+
+import es.alba.sweet.base.scan.XyData;
 
 public class ScanPart {
 
@@ -74,7 +77,14 @@ public class ScanPart {
 				}
 			});
 		}
+	}
 
+	public void setDataset(Map<String, XyData> data, Map<String, XyData> fit) {
+		this.plot.addDataset(data, fit);
+	}
+
+	public Plot getPlot() {
+		return plot;
 	}
 
 }

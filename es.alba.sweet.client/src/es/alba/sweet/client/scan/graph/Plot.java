@@ -1,26 +1,29 @@
 package es.alba.sweet.client.scan.graph;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import org.eclipse.draw2d.LightweightSystem;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataProvider;
 import org.eclipse.nebula.visualization.xygraph.dataprovider.Sample;
-import org.eclipse.nebula.visualization.xygraph.figures.Axis;
-import org.eclipse.nebula.visualization.xygraph.figures.ITraceListener;
 import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace;
-import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
-import org.eclipse.nebula.visualization.xygraph.figures.Trace.TraceType;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
-import org.eclipse.nebula.visualization.xygraph.util.XYGraphMediaFactory;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
+
+import es.alba.sweet.base.output.Output;
+import es.alba.sweet.base.scan.DataPoint;
+import es.alba.sweet.base.scan.XyData;
 
 public class Plot extends Canvas {
 
-	private XYGraph	xyGraph	= new XYGraph();
-	Trace			traceTraining;
+	private XYGraph xyGraph = new XYGraph();
 
 	public Plot(Composite parent) {
 		super(parent, SWT.NONE);
@@ -28,10 +31,6 @@ public class Plot extends Canvas {
 		LightweightSystem lws = new LightweightSystem(this);
 		ToolbarArmedXYGraph toolbarArmedXYGraph = new ToolbarArmedXYGraph(xyGraph);
 		lws.setContents(toolbarArmedXYGraph);
-		CircularBufferDataProvider traceDataProviderTraining = new CircularBufferDataProvider(false);
-		traceDataProviderTraining.setBufferSize(100);
-		traceTraining = new Trace("Trace legende", xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProviderTraining);
-		xyGraph.addTrace(traceTraining);
 		xyGraph.setShowLegend(true);
 
 		xyGraph.getPrimaryXAxis().setTitle("X axis");
@@ -41,56 +40,81 @@ public class Plot extends Canvas {
 		xyGraph.getPrimaryXAxis().setShowMajorGrid(true);
 		xyGraph.getPrimaryYAxis().setShowMajorGrid(true);
 		xyGraph.getPrimaryXAxis().setVisible(true);
-		traceTraining.setPointStyle(PointStyle.DIAMOND);
-		traceTraining.setTraceColor(XYGraphMediaFactory.getInstance().getColor(XYGraphMediaFactory.COLOR_RED));
 		xyGraph.getPrimaryYAxis().setDashGridLine(true);
-
-		traceTraining.addListener(new ITraceListener() {
-
-			@Override
-			public void traceYAxisChanged(Trace trace, Axis oldName, Axis newName) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void traceWidthChanged(Trace trace, int old, int newWidth) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void traceTypeChanged(Trace trace, TraceType old, TraceType newTraceType) {
-				System.out.println("Trace type changed " + old + " " + newTraceType);
-
-			}
-
-			@Override
-			public void traceNameChanged(Trace trace, String oldName, String newName) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void traceColorChanged(Trace trace, Color old, Color newColor) {
-				System.out.println("Color changed " + old + " " + newColor);
-
-			}
-
-			@Override
-			public void pointStyleChanged(Trace trace, PointStyle old, PointStyle newStyle) {
-				System.out.println("Point Style changed " + old + " " + newStyle);
-
-			}
-		});
-
-		// Plot our xy function
-		for (int x = -20; x < 20; x++) {
-			double y = 1.0 / (1.0 + Math.exp(-x));
-			traceDataProviderTraining.addSample(new Sample(x, y));
-			xyGraph.performAutoScale();
-		}
 
 	}
 
+	public void initialise(List<String> diagnostics) {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				removeTraces();
+
+				Trace[] traces = new Trace[diagnostics.size()];
+				CircularBufferDataProvider[] traceDataProviders = new CircularBufferDataProvider[diagnostics.size()];
+				int numberOfGraphs = diagnostics.size();
+				for (int i = 0; i < numberOfGraphs; i++) {
+					traceDataProviders[i] = new CircularBufferDataProvider(false);
+					traceDataProviders[i].setBufferSize(100);
+					traces[i] = new Trace(diagnostics.get(i), xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProviders[i]);
+					xyGraph.addTrace(traces[i]);
+				}
+			}
+		});
+	}
+
+	private void removeTraces() {
+		List<Trace> traces = xyGraph.getPlotArea().getTraceList();
+		if (traces.isEmpty()) return;
+
+		for (int i = traces.size() - 1; i >= 0; i--) {
+			Output.MESSAGE.warning("es.alba.sweet.client.scan.graph.Plot.removeTraces", traces.get(i).getName());
+			xyGraph.removeTrace(traces.get(i));
+			Output.MESSAGE.warning("es.alba.sweet.client.scan.graph.Plot.removeTraces", traces.toString());
+		}
+	}
+
+	public void addDataset(Map<String, XyData> data, Map<String, XyData> fit) {
+		plotLastPoint(data);
+		plot(fit);
+	}
+
+	private void plot(Map<String, XyData> data) {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				Set<String> keys = data.keySet();
+				List<Trace> traces = xyGraph.getPlotArea().getTraceList().stream().filter(p -> keys.contains(p.getName())).collect(Collectors.toList());
+				for (Trace trace : traces) {
+					CircularBufferDataProvider dataProvider = (CircularBufferDataProvider) trace.getDataProvider();
+					dataProvider.clearTrace();
+					XyData xyData = data.get(trace.getName());
+					int nPoints = xyData.getX().size();
+					for (int i = 0; i < nPoints; i++) {
+						Double x = xyData.getX().get(i);
+						Double y = xyData.getY().get(i);
+						dataProvider.addSample(new Sample(x, y));
+
+					}
+				}
+				xyGraph.performAutoScale();
+			}
+		});
+
+	}
+
+	private void plotLastPoint(Map<String, XyData> data) {
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				Set<String> keys = data.keySet();
+				List<Trace> traces = xyGraph.getPlotArea().getTraceList().stream().filter(p -> keys.contains(p.getName())).collect(Collectors.toList());
+				for (Trace trace : traces) {
+					DataPoint point = data.get(trace.getName()).getLastDataPoint();
+					if (point != null) {
+						CircularBufferDataProvider dataProvider = (CircularBufferDataProvider) trace.getDataProvider();
+						dataProvider.addSample(new Sample(point.getX(), point.getY()));
+					}
+				}
+				xyGraph.performAutoScale();
+			}
+		});
+	}
 }

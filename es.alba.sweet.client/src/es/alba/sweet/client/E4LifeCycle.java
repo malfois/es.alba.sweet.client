@@ -24,16 +24,13 @@ public class E4LifeCycle {
 
 	@PreSave
 	void preSave(IEclipseContext workbenchContext) {
-		System.out.println(this.getClass() + " presave");
 
 		Configuration configuration = workbenchContext.get(Configuration.class);
 		Json<Configuration> jsonConfiguration = new Json<>(configuration);
-		jsonConfiguration.print();
 		jsonConfiguration.write();
 
 		ScanConfiguration scanConfiguration = workbenchContext.get(ScanConfiguration.class);
 		Json<ScanConfiguration> jsonScanConfiguration = new Json<>(scanConfiguration);
-		// jsonScanConfiguration.print();
 		jsonScanConfiguration.write();
 
 	}
@@ -52,7 +49,6 @@ public class E4LifeCycle {
 
 		Json<ScanConfiguration> jsonScanConfiguration = new Json<>(new ScanConfiguration());
 		jsonScanConfiguration.read();
-		jsonScanConfiguration.print();
 		workbenchContext.set(ScanConfiguration.class, jsonScanConfiguration.getConfiguration());
 		Output.DEBUG.info("es.alba.sweet.E4LifeCycle.processAdditions",
 				jsonScanConfiguration.getConfiguration().getClass().getSimpleName() + " injected in context " + workbenchContext);

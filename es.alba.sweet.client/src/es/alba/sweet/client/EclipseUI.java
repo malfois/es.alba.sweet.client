@@ -39,7 +39,6 @@ public class EclipseUI {
 	}
 
 	public static MToolControl getPerspectiveToolControl() {
-		System.out.println(window());
 		return (MToolControl) modelService().find(Id.PERSPECTIVE_TOOL_CONTROL, window());
 	}
 

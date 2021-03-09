@@ -30,7 +30,6 @@ public class XAxisLabelProvider extends ColumnLabelProvider {
 		}
 		Legend legend = (Legend) cell.getElement();
 		button.setSelection(legend.isxAxis());
-
 	}
 
 	public Map<Object, Button> getButtons() {

@@ -18,11 +18,13 @@ public class Id {
 	public final static String			MAIN_TRIM_BAR				= String.join(".", SWEET, Word.TRIM_BAR, "top");
 	public final static String			PERSPECTIVE_TOOL_CONTROL	= String.join(".", SWEET, Word.TOOL_CONTROL, Word.PERSPECTIVE);
 	public final static String			SERVER_TOOL_CONTROL			= String.join(".", SWEET, Word.TOOL_CONTROL, Word.SERVER);
+	public final static String			SCAN_SERVER_TOOL_CONTROL	= String.join(".", SWEET, Word.TOOL_CONTROL, "scanserver");
 
-	public final static String			SCAN_PERSPECTIVE			= String.join(".", SWEET, Word.PERSPECTIVE, "scan");
+	public final static String			SCAN_PERSPECTIVE			= String.join(".", SWEET, Word.PERSPECTIVE, Word.SCAN);
 
-	public final static String			SCAN_PLOT					= String.join(".", SWEET, Word.PART, "scan", "graph");
-	public final static String			SCAN_LEGEND					= String.join(".", SWEET, Word.PART, "scan", "legend");
+	public final static String			SCAN_PLOT					= String.join(".", SWEET, Word.PART, Word.SCAN, "graph");
+	public final static String			SCAN_LEGEND					= String.join(".", SWEET, Word.PART, Word.SCAN, "legend");
+	public final static String			SCAN_EDGE					= String.join(".", SWEET, Word.PART, Word.SCAN, "edge");
 
 	private class Word {
 		private final static String	PART_DESCRIPTOR	= "partdescriptor";
@@ -31,6 +33,7 @@ public class Id {
 		private final static String	TOOL_CONTROL	= "toolcontrol";
 		private final static String	SERVER			= "server";
 		private final static String	PART			= "part";
+		private final static String	SCAN			= "scan";
 
 	}
 }

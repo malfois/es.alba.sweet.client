@@ -20,7 +20,6 @@ import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.osgi.service.event.Event;
 
-import es.alba.sweet.base.configuration.Json;
 import es.alba.sweet.base.output.Output;
 import es.alba.sweet.client.EclipseUI;
 import es.alba.sweet.client.core.constant.Id;
@@ -53,12 +52,6 @@ public class Initialise {
 	public void applicationStarted(@EventTopic(UIEvents.UILifeCycle.APP_STARTUP_COMPLETE) Event event) {
 
 		Output.MESSAGE.info("es.alba.sweet.addons.Initialise.applicationStarted", "Initializing the application");
-
-		Json<Configuration> json = new Json<>(configuration);
-		json.print();
-
-		Json<ScanConfiguration> jscan = new Json<>(scanConfiguration);
-		jscan.print();
 
 		// add the perspective to the perspective stack
 		build();

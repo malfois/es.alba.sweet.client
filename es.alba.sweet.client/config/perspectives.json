@@ -2,7 +2,7 @@
   "perspectives" : [ {
     "id" : "es.alba.sweet.client.perspective.scan",
     "layout" : [ "default", "test", "simul" ],
-    "selectedLayout" : "simul"
+    "selectedLayout" : "default"
   } ],
   "selectedPerspectiveId" : "es.alba.sweet.client.perspective.scan"
 }

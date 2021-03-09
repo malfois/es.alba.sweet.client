@@ -1,19 +1,21 @@
 package es.alba.sweet.client.scan;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 
 import es.alba.sweet.base.scan.Header;
+import es.alba.sweet.base.scan.ScanDataSet;
 import es.alba.sweet.client.EclipseUI;
 import es.alba.sweet.client.core.constant.Id;
+import es.alba.sweet.client.scan.graph.Edge;
 import es.alba.sweet.client.scan.graph.Legend;
 import es.alba.sweet.client.scan.graph.ScanLegend;
 import es.alba.sweet.client.scan.graph.ScanPart;
@@ -22,15 +24,10 @@ public enum Scan {
 
 	PROCESS;
 
-	@Inject
+	private ScanState scanState = ScanState.IDLE;
+
 	public void initialise(Header scanHeader) {
-
-		MPerspective activePerspective = EclipseUI.activePerspective();
-		MPart part = (MPart) EclipseUI.modelService().find(Id.SCAN_PLOT, activePerspective);
-
-		Path file = Paths.get(scanHeader.getFilename()).getFileName();
-		part.setLabel(file.toString());
-		ScanPart scanPart = (ScanPart) part.getObject();
+		setScanState(ScanState.RUNNING);
 
 		ScanConfiguration scanConfiguration = EclipseUI.getEclipseContext().get(ScanConfiguration.class);
 
@@ -54,16 +51,74 @@ public enum Scan {
 		Legend legendX = newLegends.stream().filter(p -> p.getName().equals(scanHeader.getMotor())).findFirst().orElse(newLegends.get(1));
 		legendX.setxAxis(true);
 
-		MPart legendPart = (MPart) EclipseUI.modelService().find(Id.SCAN_LEGEND, activePerspective);
-		ScanLegend scanLegendPart = (ScanLegend) legendPart.getObject();
-		scanLegendPart.initialise(newLegends);
+		MPerspective activePerspective = EclipseUI.activePerspective();
 
-		scanPart.initialise(scanHeader.getDiagnostics());
+		MPart legendPart = (MPart) EclipseUI.modelService().find(Id.SCAN_LEGEND, activePerspective);
+		if (legendPart != null) {
+			ScanLegend scanLegendPart = (ScanLegend) legendPart.getObject();
+			scanLegendPart.initialise(newLegends);
+		}
+
+		List<String> plotDiagnsotics = scanHeader.getPlotDiagnostics();
+		nDiagnostics = plotDiagnsotics.size();
+		for (int i = 0; i < 2 * nDiagnostics; i += 2) {
+			plotDiagnsotics.add((i + 1), plotDiagnsotics.get(i) + " Fit");
+		}
+
+		MPart part = (MPart) EclipseUI.modelService().find(Id.SCAN_PLOT, activePerspective);
+		if (part != null) {
+			Path file = Paths.get(scanHeader.getFilename()).getFileName();
+			part.setLabel(file.toString());
+			ScanPart scanPart = (ScanPart) part.getObject();
+			scanPart.initialise(scanHeader.getDiagnostics());
+			scanPart.getPlot().initialise(plotDiagnsotics);
+		}
+
+		MPart edgePart = (MPart) EclipseUI.modelService().find(Id.SCAN_EDGE, activePerspective);
+		if (edgePart != null) {
+			Edge edge = (Edge) edgePart.getObject();
+			edge.getPlot().initialise(plotDiagnsotics);
+		}
 
 		scanConfiguration.setHeader(scanHeader);
 		scanConfiguration.setLegends(newLegends);
 
-		// Json<ScanConfiguration> conf = new Json<>(scanConfiguration);
-		// conf.print();
+	}
+
+	public void addDataPoint(ScanDataSet dataset) {
+		MPerspective activePerspective = EclipseUI.activePerspective();
+		MPart part = (MPart) EclipseUI.modelService().find(Id.SCAN_PLOT, activePerspective);
+		if (part != null) {
+			ScanPart scanPart = (ScanPart) part.getObject();
+			scanPart.setDataset(dataset.getScanXyData(), dataset.getScanFitXyData());
+		}
+
+		MPart edgePart = (MPart) EclipseUI.modelService().find(Id.SCAN_EDGE, activePerspective);
+		if (edgePart != null) {
+			Edge edge = (Edge) edgePart.getObject();
+			edge.getPlot().addDataset(dataset.getDerivativeData(), dataset.getFitDerivativeData());
+		}
+	}
+
+	public ScanState getScanState() {
+		return this.scanState;
+	}
+
+	public void setScanState(ScanState scanState) {
+		firePropertyChange("scanstate", this.scanState, this.scanState = scanState);
+	}
+
+	private final PropertyChangeSupport changeSupport = new PropertyChangeSupport(this);
+
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
+		changeSupport.addPropertyChangeListener(listener);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		changeSupport.removePropertyChangeListener(listener);
+	}
+
+	protected void firePropertyChange(String propertyName, Object oldValue, Object newValue) {
+		changeSupport.firePropertyChange(propertyName, oldValue, newValue);
 	}
 }

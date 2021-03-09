@@ -1,13 +1,14 @@
 {
   "header" : {
-    "filename" : "Z:\\github\\es.alba.sweet.client\\es.alba.sweet.client\\test\\bco_x_6139.dat",
-    "command" : "ascan bco_x -2.825625 3.174375 30 0.5",
-    "motor" : "bco_x",
-    "scanID" : 6139,
-    "selectedDiagnostic" : "ic2",
-    "diagnostics" : [ "Pt_No", "bco_x", "ic1", "ic2", "ic3", "eh_emetionchambers_timer", "ic0", "eh_diodes_timer", "dt" ],
-    "numberOfPoints" : 31,
-    "headerFile" : [ "#S 6139 ascan bco_x -2.825625 3.174375 30 0.5", "#U tangosys", "#D Fri Jan 22 11:32:26 2021", "#N 9", "#L Pt_No  bco_x  ic1  ic2  ic3  eh_emetionchambers_timer  ic0  eh_diodes_timer  dt" ]
+    "filename" : "Z:\\github\\es.alba.sweet.client\\es.alba.sweet.client\\test\\s4up_6231.dat",
+    "command" : "ascan s4up -1.5 1.5 60 0.5",
+    "motor" : "s4up",
+    "scanID" : 6231,
+    "selectedDiagnostic" : "ic1",
+    "diagnostics" : [ "Pt_No", "s4up", "ic1", "ic2", "ic3", "eh_emetionchambers_timer", "ic0", "eh_diodes_timer", "dt" ],
+    "plotDiagnostics" : [ "ic1", "ic1 Fit" ],
+    "numberOfPoints" : 61,
+    "headerFile" : [ "#S 6231 ascan s4up -1.5 1.5 60 0.5", "#U tangosys", "#D Fri Jan 22 13:47:28 2021", "#N 9", "#L Pt_No  s4up  ic1  ic2  ic3  eh_emetionchambers_timer  ic0  eh_diodes_timer  dt" ]
   },
   "legends" : [ {
     "xAxis" : false,
@@ -26,7 +27,7 @@
     "plotYAxis" : false
   }, {
     "xAxis" : true,
-    "name" : "bco_x",
+    "name" : "s4up",
     "renderer" : {
       "width" : 1,
       "color" : {
@@ -53,7 +54,7 @@
       "line" : "SOLID_LINE",
       "symbol" : "NONE"
     },
-    "plotYAxis" : false
+    "plotYAxis" : true
   }, {
     "xAxis" : false,
     "name" : "ic2",
@@ -68,7 +69,7 @@
       "line" : "SOLID_LINE",
       "symbol" : "NONE"
     },
-    "plotYAxis" : true
+    "plotYAxis" : false
   }, {
     "xAxis" : false,
     "name" : "ic3",

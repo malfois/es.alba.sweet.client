@@ -17,7 +17,9 @@ import es.alba.sweet.base.constant.Application;
 import es.alba.sweet.base.output.Message;
 import es.alba.sweet.base.output.Output;
 import es.alba.sweet.base.scan.Header;
+import es.alba.sweet.base.scan.ScanDataSet;
 import es.alba.sweet.client.scan.Scan;
+import es.alba.sweet.client.scan.ScanState;
 
 public class ServerInterlocutor extends ObservableProperty implements Runnable {
 
@@ -80,7 +82,6 @@ public class ServerInterlocutor extends ObservableProperty implements Runnable {
 			while (run) {
 
 				CommandStream commandStream = new CommandStream(fromServer.readLine());
-				System.out.println(commandStream);
 				// if (fromServerString == null) {
 				// Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "No answer from SERVER - Maybe closed");
 				// Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Closing the socket");
@@ -96,13 +97,21 @@ public class ServerInterlocutor extends ObservableProperty implements Runnable {
 				switch (command) {
 				case MESSAGE:
 					Message message = new Message(commandStream.getCommandArgument());
-					System.out.println(message.toString());
 					Output.MESSAGE.print(message);
 					break;
 				case SCAN_HEADER:
 					Header scanHeader = new Header(commandStream.getCommandArgument());
 					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Scan header received");
 					Scan.PROCESS.initialise(scanHeader);
+					break;
+				case SCAN_DATA_POINT:
+					ScanDataSet scanDataset = new ScanDataSet(commandStream.getCommandArgument());
+					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Scan data point received " + scanDataset.getText());
+					Scan.PROCESS.addDataPoint(scanDataset);
+					break;
+				case SCAN_STOPPED:
+					Output.MESSAGE.info("es.alba.sweet.client.server.ServerInterlocutor.run", "Scan stopped");
+					Scan.PROCESS.setScanState(ScanState.IDLE);
 					break;
 				default:
 					break;

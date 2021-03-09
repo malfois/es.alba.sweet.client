@@ -42,7 +42,6 @@ public class StartServer implements Callable<ServerState> {
 						}
 					}
 				} catch (InterruptedException e) {
-					System.err.println(e.getMessage());
 					Thread.currentThread().interrupt();
 					e.printStackTrace();
 				}

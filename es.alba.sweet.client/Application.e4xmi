@@ -7,6 +7,7 @@
     </trimBars>
     <trimBars xmi:id="_hDnHYGe2Eeufkeb7e-1_EA" elementId="es.alba.sweet.client.trimbar.server" side="Bottom">
       <children xsi:type="menu:ToolControl" xmi:id="_phsG8Ge2Eeufkeb7e-1_EA" elementId="es.alba.sweet.client.toolcontrol.server" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.server.ServerOutput"/>
+      <children xsi:type="menu:ToolControl" xmi:id="_0iV8sHtZEeuOufCepfH6cg" elementId="es.alba.sweet.client.toolcontrol.scanserver" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.server.ScanServerOutput"/>
     </trimBars>
   </children>
   <rootContext xmi:id="_c3AF2cjYEeSyMNYR5xypkQ" elementId="org.eclipse.ui.contexts.dialogAndWindow" name="In Dialog and Windows">
