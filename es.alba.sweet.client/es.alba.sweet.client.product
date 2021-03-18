@@ -141,6 +141,7 @@
       <plugin id="org.eclipse.m2e.maven.runtime.slf4j.simple"/>
       <plugin id="org.eclipse.m2e.model.edit"/>
       <plugin id="org.eclipse.m2e.workspace.cli"/>
+      <plugin id="org.eclipse.nebula.visualization.widgets"/>
       <plugin id="org.eclipse.nebula.visualization.xygraph"/>
       <plugin id="org.eclipse.nebula.widgets.opal.commons"/>
       <plugin id="org.eclipse.nebula.widgets.opal.dialog"/>

@@ -7,6 +7,7 @@ import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessRemovals;
 
 import es.alba.sweet.base.configuration.Json;
+import es.alba.sweet.base.logger.LogFile;
 import es.alba.sweet.base.output.Output;
 import es.alba.sweet.client.perspective.Configuration;
 import es.alba.sweet.client.scan.ScanConfiguration;
@@ -33,6 +34,7 @@ public class E4LifeCycle {
 		Json<ScanConfiguration> jsonScanConfiguration = new Json<>(scanConfiguration);
 		jsonScanConfiguration.write();
 
+		LogFile.close();
 	}
 
 	@ProcessAdditions

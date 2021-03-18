@@ -31,7 +31,7 @@ public class IconLoader {
 
 			return load(directoryURL, filename);
 		} catch (IOException e) {
-			e.printStackTrace();
+			// e.printStackTrace();
 			Output.DEBUG.error("es.alba.sweet.core.IconLoader.loadFromURI", "No file found in " + iconURI);
 			return loadUnknownIcon(DirectoryLocator.findDirectory(Paths.get(Directory.ICONS)));
 		}

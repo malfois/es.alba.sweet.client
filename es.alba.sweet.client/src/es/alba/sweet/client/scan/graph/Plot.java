@@ -10,6 +10,8 @@ import org.eclipse.nebula.visualization.xygraph.dataprovider.CircularBufferDataP
 import org.eclipse.nebula.visualization.xygraph.dataprovider.Sample;
 import org.eclipse.nebula.visualization.xygraph.figures.ToolbarArmedXYGraph;
 import org.eclipse.nebula.visualization.xygraph.figures.Trace;
+import org.eclipse.nebula.visualization.xygraph.figures.Trace.PointStyle;
+import org.eclipse.nebula.visualization.xygraph.figures.Trace.TraceType;
 import org.eclipse.nebula.visualization.xygraph.figures.XYGraph;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
@@ -53,9 +55,18 @@ public class Plot extends Canvas {
 				CircularBufferDataProvider[] traceDataProviders = new CircularBufferDataProvider[diagnostics.size()];
 				int numberOfGraphs = diagnostics.size();
 				for (int i = 0; i < numberOfGraphs; i++) {
+					String diagnostic = diagnostics.get(i);
 					traceDataProviders[i] = new CircularBufferDataProvider(false);
 					traceDataProviders[i].setBufferSize(100);
-					traces[i] = new Trace(diagnostics.get(i), xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProviders[i]);
+					traces[i] = new Trace(diagnostic, xyGraph.getPrimaryXAxis(), xyGraph.getPrimaryYAxis(), traceDataProviders[i]);
+					if (diagnostic.contains(" Fit")) {
+						traces[i].setPointStyle(PointStyle.NONE);
+						traces[i].setTraceType(TraceType.SOLID_LINE);
+					} else {
+						traces[i].setPointStyle(PointStyle.FILLED_CIRCLE);
+						traces[i].setTraceType(TraceType.DASH_LINE);
+						traces[i].setPointSize(7);
+					}
 					xyGraph.addTrace(traces[i]);
 				}
 			}
@@ -78,7 +89,7 @@ public class Plot extends Canvas {
 		plot(fit);
 	}
 
-	private void plot(Map<String, XyData> data) {
+	public void plot(Map<String, XyData> data) {
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				Set<String> keys = data.keySet();

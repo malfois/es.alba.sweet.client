@@ -36,9 +36,16 @@
           </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_h-7ucHHuEeu_-9g3U-WT6Q" elementId="es.alba.sweet.client.partsashcontainer.3">
-          <children xsi:type="basic:PartStack" xmi:id="_uBfOMGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.graph">
-            <children xsi:type="basic:Part" xmi:id="_sdRo8GoUEeuRWsGPOPeVRA" elementId="es.alba.sweet.client.part.scan.simulation" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.Simulation" label="Simulation" iconURI="platform:/plugin/es.alba.sweet.client/icons/simulation.png" closeable="true">
-              <tags>release</tags>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_HpMJ4IF9Eeub2vUqcNZH4A" elementId="es.alba.sweet.client.partsashcontainer.5" horizontal="true">
+            <children xsi:type="basic:PartStack" xmi:id="_uBfOMGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partstack.scan.graph">
+              <children xsi:type="basic:Part" xmi:id="_sdRo8GoUEeuRWsGPOPeVRA" elementId="es.alba.sweet.client.part.scan.simulation" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.Simulation" label="Scan Simulation" iconURI="platform:/plugin/es.alba.sweet.client/icons/simulation.png" closeable="true">
+                <tags>release</tags>
+              </children>
+            </children>
+            <children xsi:type="basic:PartStack" xmi:id="_OMdpoIF9Eeub2vUqcNZH4A" elementId="es.alba.sweet.client.partstack.2" selectedElement="_TK22QIF9Eeub2vUqcNZH4A">
+              <children xsi:type="basic:Part" xmi:id="_TK22QIF9Eeub2vUqcNZH4A" elementId="es.alba.sweet.client.part.scan.function.simulation" contributionURI="bundleclass://es.alba.sweet.client/es.alba.sweet.client.scan.FunctionSimulation" label="Function Simulation" closeable="true">
+                <tags>release</tags>
+              </children>
             </children>
           </children>
           <children xsi:type="basic:PartSashContainer" xmi:id="_sdJtoGGDEeuP65CTRaCn7g" elementId="es.alba.sweet.client.partsashcontainer.2" horizontal="true">

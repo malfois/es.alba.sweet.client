@@ -1,6 +1,8 @@
 
 package es.alba.sweet.client.scan;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -24,6 +26,7 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 
 import es.alba.sweet.base.communication.command.CommandName;
@@ -43,6 +46,9 @@ public class Simulation {
 
 	private ComboViewer		combo;
 
+	private Button			start;
+	private Button			stop;
+
 	@Inject
 	public Simulation() {
 
@@ -51,7 +57,7 @@ public class Simulation {
 	@PostConstruct
 	public void postConstruct(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(6, false);
+		GridLayout layout = new GridLayout(7, false);
 		layout.horizontalSpacing = 10;
 		composite.setLayout(layout);
 
@@ -83,16 +89,23 @@ public class Simulation {
 		combo.setContentProvider(ArrayContentProvider.getInstance());
 		combo.setInput(diagnostics);
 
-		Button button = new Button(composite, SWT.PUSH);
-		button.setText("Load");
-		button.addSelectionListener(new ButtonListener());
+		start = new Button(composite, SWT.PUSH);
+		start.setText("Start");
+		start.addSelectionListener(new ButtonStartListener());
+		start.setEnabled(Scan.PROCESS.getScanState().isIdle());
+
+		stop = new Button(composite, SWT.PUSH);
+		stop.setText("Stop");
+		stop.addSelectionListener(new ButtonStopListener());
+		stop.setEnabled(Scan.PROCESS.getScanState().isRunning());
 
 		fileViewer.addSelectionChangedListener(new FileChangeListener());
 		fileViewer.setSelection(new StructuredSelection(fileViewer.getElementAt(0)), true);
 
+		Scan.PROCESS.addPropertyChangeListener(new ChangeServerStateListener());
 	}
 
-	private class ButtonListener extends SelectionAdapter {
+	private class ButtonStartListener extends SelectionAdapter {
 		public void widgetSelected(SelectionEvent e) {
 			String filename = fileViewer.getStructuredSelection().getFirstElement().toString();
 			String diagnostic = combo.getStructuredSelection().getFirstElement().toString();
@@ -105,6 +118,21 @@ public class Simulation {
 			Server.SERVER.getConnection().send(new CommandStream(CommandName.SCAN_SIMULATION, parameter.toJson()));
 
 		}
+	}
+
+	private class ChangeServerStateListener implements PropertyChangeListener {
+
+		@Override
+		public void propertyChange(PropertyChangeEvent event) {
+			ScanState scanState = (ScanState) event.getNewValue();
+			Display.getDefault().syncExec(new Runnable() {
+				public void run() {
+					start.setEnabled(scanState.isIdle());
+					stop.setEnabled(scanState.isRunning());
+				}
+			});
+		}
+
 	}
 
 	private class FileChangeListener implements ISelectionChangedListener {

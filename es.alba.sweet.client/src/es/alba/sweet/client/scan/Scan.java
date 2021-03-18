@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.eclipse.e4.ui.model.application.ui.advanced.MPerspective;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 
+import es.alba.sweet.base.output.Output;
 import es.alba.sweet.base.scan.Header;
 import es.alba.sweet.base.scan.ScanDataSet;
 import es.alba.sweet.client.EclipseUI;
@@ -28,7 +29,7 @@ public enum Scan {
 
 	public void initialise(Header scanHeader) {
 		setScanState(ScanState.RUNNING);
-
+		Output.MESSAGE.info("es.alba.sweet.client.scan.Scan.initialise", scanState.name());
 		ScanConfiguration scanConfiguration = EclipseUI.getEclipseContext().get(ScanConfiguration.class);
 
 		List<Legend> legends = scanConfiguration.getLegends();
@@ -48,7 +49,7 @@ public enum Scan {
 		yAxisLegend.forEach(a -> a.setPlotYAxis(true));
 
 		newLegends.forEach(a -> a.setxAxis(false));
-		Legend legendX = newLegends.stream().filter(p -> p.getName().equals(scanHeader.getMotor())).findFirst().orElse(newLegends.get(1));
+		Legend legendX = newLegends.stream().filter(p -> p.getName().equals(scanHeader.getMotor())).findFirst().orElse(newLegends.get(0));
 		legendX.setxAxis(true);
 
 		MPerspective activePerspective = EclipseUI.activePerspective();
@@ -96,7 +97,8 @@ public enum Scan {
 		MPart edgePart = (MPart) EclipseUI.modelService().find(Id.SCAN_EDGE, activePerspective);
 		if (edgePart != null) {
 			Edge edge = (Edge) edgePart.getObject();
-			edge.getPlot().addDataset(dataset.getDerivativeData(), dataset.getFitDerivativeData());
+			edge.getPlot().plot(dataset.getDerivativeData());
+			edge.getPlot().plot(dataset.getFitDerivativeData());
 		}
 	}
 

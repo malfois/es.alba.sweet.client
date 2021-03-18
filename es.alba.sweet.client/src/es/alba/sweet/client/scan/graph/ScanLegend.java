@@ -27,12 +27,16 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 
+import es.alba.sweet.base.communication.command.CommandName;
+import es.alba.sweet.base.communication.command.CommandStream;
+import es.alba.sweet.base.communication.command.Name;
 import es.alba.sweet.base.configuration.Json;
 import es.alba.sweet.base.output.Output;
 import es.alba.sweet.client.scan.LegendTable;
 import es.alba.sweet.client.scan.ScanConfiguration;
 import es.alba.sweet.client.scan.XAxisLabelProvider;
 import es.alba.sweet.client.scan.YAxisLabelProvider;
+import es.alba.sweet.client.server.Server;
 
 public class ScanLegend {
 
@@ -176,6 +180,10 @@ public class ScanLegend {
 			legend.setPlotYAxis(selected);
 			String text = (selected) ? legend.getName() + " will be added to the plot" : legend.getName() + " will be removed from the plot";
 			Output.MESSAGE.info("es.alba.sweet.client.scan.graph.ScanLegend.PlotYAxisAdapter.widgetSelected", text);
+
+			Name yAxis = new Name();
+			yAxis.setName(legend.getName());
+			Server.SERVER.getConnection().send(new CommandStream(CommandName.ADD_YAXIS, yAxis.toJson()));
 		}
 	}
 
