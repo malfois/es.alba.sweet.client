@@ -34,10 +34,12 @@ import es.alba.sweet.client.core.constant.Tag;
 public class Perspective {
 
 	public static String SaveCurrentPerspective(String layoutName, boolean askConfirmation) {
-		String savedLayoutName = (askConfirmation) ? LayoutModificationDialog.SaveConfirmation(layoutName) : LayoutModificationDialog.CheckLayoutName(layoutName);
+		String savedLayoutName = (askConfirmation) ? LayoutModificationDialog.SaveConfirmation(layoutName)
+				: LayoutModificationDialog.CheckLayoutName(layoutName);
 
 		if (savedLayoutName == null) {
-			Output.DEBUG.info("es.alba.sweet.perspective.Perspective.SaveCurrentPerspective", "Cancel button has been pushed. The current layout will not be saved");
+			Output.DEBUG.info("es.alba.sweet.perspective.Perspective.SaveCurrentPerspective",
+					"Cancel button has been pushed. The current layout will not be saved");
 			return savedLayoutName;
 		}
 
@@ -50,7 +52,8 @@ public class Perspective {
 		String savedLayoutName = LayoutModificationDialog.inputDialog(layoutName);
 
 		if (savedLayoutName == null) {
-			Output.DEBUG.info("es.alba.sweet.perspective.Perspective.SaveCurrentPerspective", "Cancel button has been pushed. The current layout will not be saved");
+			Output.DEBUG.info("es.alba.sweet.perspective.Perspective.SaveCurrentPerspective",
+					"Cancel button has been pushed. The current layout will not be saved");
 			return savedLayoutName;
 		}
 
@@ -101,7 +104,8 @@ public class Perspective {
 	}
 
 	public static void loadPerspective(String layoutName) {
-		// get the parent perspective stack, so that the loaded perspective can be added to it.
+		// get the parent perspective stack, so that the loaded perspective can be added
+		// to it.
 		MPerspective activePerspective = EclipseUI.activePerspective();
 		Output.DEBUG.info("es.alba.sweet.perspective.Perspective.loadPerspective", "Loading perspective " + activePerspective);
 		MElementContainer<MUIElement> perspectiveParent = activePerspective.getParent();
@@ -110,7 +114,8 @@ public class Perspective {
 				: loadPerspectiveFromFile(layoutName);
 
 		// remove the current perspective, which should be replaced by the loaded one
-		List<MPerspective> alreadyPresentPerspective = EclipseUI.modelService().findElements(EclipseUI.window(), loadedPerspective.getElementId(), MPerspective.class, null);
+		List<MPerspective> alreadyPresentPerspective = EclipseUI.modelService().findElements(EclipseUI.window(), loadedPerspective.getElementId(),
+				MPerspective.class, null);
 		for (MPerspective perspective : alreadyPresentPerspective) {
 			EclipseUI.modelService().removePerspectiveModel(perspective, EclipseUI.window());
 		}
@@ -138,7 +143,8 @@ public class Perspective {
 
 			if (!resource.getContents().isEmpty()) {
 
-				// after the model element is loaded it can be obtained from the contents of the resource
+				// after the model element is loaded it can be obtained from the contents of the
+				// resource
 				MPerspective loadedPerspective = (MPerspective) resource.getContents().get(0);
 
 				inputStream.close();
@@ -146,7 +152,8 @@ public class Perspective {
 				return loadedPerspective;
 			}
 		} catch (IOException e) {
-			Output.MESSAGE.error("es.alba.sweet.perspective.Layout.loadPerspective", "Error loading perspective " + getLayoutFilename(activePerspective.getLabel(), layoutName));
+			Output.MESSAGE.error("es.alba.sweet.perspective.Layout.loadPerspective",
+					"Error loading perspective " + getLayoutFilename(activePerspective.getLabel(), layoutName));
 			MPerspective loadedPerspective = loadDefaultPerspective(activePerspective.getElementId());
 			return loadedPerspective;
 		}
@@ -158,6 +165,9 @@ public class Perspective {
 		EModelService modelService = EclipseUI.modelService();
 		EPartService partService = EclipseUI.partService();
 		MApplication application = EclipseUI.application();
+
+		if (EclipseUI.window() == null)
+			application.setSelectedElement(application.getChildren().get(0));
 
 		MUIElement element = modelService.findSnippet(application, perspectiveId);
 
@@ -185,7 +195,8 @@ public class Perspective {
 
 					for (MStackElement stackElement : stackElements) {
 						int nRelease = 0;
-						if (stackElement.getTags().contains(Tag.RELEASE)) nRelease++;
+						if (stackElement.getTags().contains(Tag.RELEASE))
+							nRelease++;
 						if (nRelease == 0) {
 							partStack.setToBeRendered(false);
 						}

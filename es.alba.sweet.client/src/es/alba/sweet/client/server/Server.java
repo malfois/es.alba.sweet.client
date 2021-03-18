@@ -23,12 +23,12 @@ public enum Server {
 
 	SERVER;
 
-	private ServerInterlocutor			connection;
+	private ServerInterlocutor connection;
 
-	private Json<Communication>			json				= new Json<>(new Communication());
+	private Json<Communication> json = new Json<>(new Communication());
 
-	private ServerState					serverState			= ServerState.NOT_RUNNING;
-	private ServerStatePropertyListener	serverStateListener	= new ServerStatePropertyListener();
+	private ServerState serverState = ServerState.NOT_RUNNING;
+	private ServerStatePropertyListener serverStateListener = new ServerStatePropertyListener();
 
 	private Server() {
 
@@ -42,7 +42,8 @@ public enum Server {
 		File jsonFile = json.getFile();
 		if (!jsonFile.exists()) {
 			String path = jsonFile.getPath().toString();
-			Output.MESSAGE.error("es.alba.sweet.client.server.Server.connect", "File " + path + " containing information about communication to the server NOT FOUND");
+			Output.MESSAGE.error("es.alba.sweet.client.server.Server.connect",
+					"File " + path + " containing information about communication to the server NOT FOUND");
 			Output.MESSAGE.error("es.alba.sweet.client.server.Server.connect", "Connection to the server: None");
 		} else {
 			String filename = json.getFile().getPath().toString();
@@ -94,6 +95,7 @@ public enum Server {
 	public void start() {
 		Output.MESSAGE.info("es.alba.sweet.client.server.Server.start", "Starting the server");
 		List<String> commandLine = CommandLine.SERVER.get();
+		System.out.println(commandLine);
 		ProcessBuilder pb = new ProcessBuilder(commandLine);
 		pb.redirectErrorStream(true);
 		try {
@@ -146,7 +148,8 @@ public enum Server {
 	public void connection() {
 		Communication connection = json.getConfiguration();
 		if (!this.sameNetwork(connection.getHostName())) {
-			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.connection", "Server and client not on the same network. No connection to the server possible");
+			Output.MESSAGE.warning("es.alba.sweet.client.server.Server.connection",
+					"Server and client not on the same network. No connection to the server possible");
 			return;
 		}
 

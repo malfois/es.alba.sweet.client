@@ -11,8 +11,8 @@ import es.alba.sweet.base.output.Output;
 
 public class StartServer implements Callable<ServerState> {
 
-	private Process		process;
-	private ServerState	serverState	= ServerState.NOT_RUNNING;
+	private Process process;
+	private ServerState serverState = ServerState.NOT_RUNNING;
 
 	public StartServer(Process process) {
 		this.process = process;
@@ -26,6 +26,7 @@ public class StartServer implements Callable<ServerState> {
 
 				String line = null;
 				while ((line = bri.readLine()) != null) {
+					System.out.println(line);
 					Message message = AMessage.Factory(line);
 					Output.MESSAGE.print(message);
 					if (line.contains("Waiting for client")) {
